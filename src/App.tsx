@@ -1,8 +1,13 @@
 import React,{ useState, createContext } from 'react';
+import { Routes, Route, BrowserRouterw, Switch } from 'react-router-dom';
 // import { createBrowserRoute, RouteProvider, } from 'react-router-dom';
 import Counter from './components/Counter';
 import WeatherReport from './components/WeatherReport/WeatherReport';
 import ShowUserData from './components/userData/showUserData';
+import Header from './components/header/header';
+import PrivateRoute from './components/PrivateRoutes/PrivateRoutes';
+import PublicRoutes from './components/PublicRoutes/PublicRoutes';
+import Login from './components/Login/Login';
 function App() {
   const [count, setValue] = useState(0);
   const [themeValue, setThemeValue] = useState("#eee");
@@ -26,11 +31,17 @@ function App() {
 }
 
   return (
-    <CounterContext.Provider value={counterBox}>
-      <Counter  />
-      <WeatherReport />
-      <ShowUserData />
-    </CounterContext.Provider>
+      <CounterContext.Provider value={counterBox}>
+        <Header />
+          <BrowserRouterw>
+          <Switch>
+            <Route path='/' element={<Counter  />} />
+            <Route path='/weather' element={<WeatherReport />} />
+            <Route path='/showUser' element={<ShowUserData  />} />
+            <PublicRoutes restricted={false} path='/login' compoent={<Login  />} />
+          </Switch>
+          </BrowserRouterw>
+      </CounterContext.Provider>
   );
 }
 const initialState = {
